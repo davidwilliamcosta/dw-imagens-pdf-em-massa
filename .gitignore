@@ -1,0 +1,9 @@
+# backups gerados nos deploys
+*.bak-*
+
+# lixo do macOS / compartilhamento SMB
+._*
+.DS_Store
+
+# arquivos temporários de teste
+__test*

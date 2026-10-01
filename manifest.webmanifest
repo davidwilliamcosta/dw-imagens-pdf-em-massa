@@ -1,0 +1,14 @@
+{
+  "name": "Imagens & PDF em massa",
+  "short_name": "Imagens & PDF",
+  "description": "Converta imagens para WebP ou AVIF, gere metadados de SEO, recorte em massa e comprima PDFs, direto no navegador.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EEF0F2",
+  "theme_color": "#0E6B5C",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

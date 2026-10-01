@@ -1,0 +1,7 @@
+AddType application/wasm .wasm
+AddType text/javascript .js .mjs
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType application/wasm "access plus 1 year"
+</IfModule>

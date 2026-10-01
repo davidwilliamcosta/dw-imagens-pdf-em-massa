@@ -1,0 +1,13 @@
+services:
+  webp:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - proxy_network
+
+networks:
+  proxy_network:
+    external: true

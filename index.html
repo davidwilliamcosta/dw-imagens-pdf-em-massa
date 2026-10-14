@@ -513,6 +513,26 @@
       white-space: nowrap;
     }
 
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 9px;
+      border: 1px solid var(--accent);
+      border-radius: 5px;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .dl-btn:hover {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
     .row-remove {
       background: none;
       border: none;
@@ -901,6 +921,10 @@
       }
 
       .row .size.original {
+        display: none;
+      }
+
+      .dl-btn span {
         display: none;
       }
 
@@ -1595,7 +1619,7 @@
             ? `<span class="saved">${formatSize(it.convertedSize)} · -${it.pct}%</span>`
             : `<span class="status">${it.status}</span>`;
           const downloadCell = it.downloadUrl
-            ? `<a href="${it.downloadUrl}" download="${escapeHtml(finalName)}" title="Baixar">⭳</a>`
+            ? `<a href="${it.downloadUrl}" download="${escapeHtml(finalName)}" class="dl-btn" title="Baixar este arquivo" aria-label="Baixar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg><span>Baixar</span></a>`
             : '';
           const safeOriginal = escapeHtml(it.name);
 
@@ -2308,7 +2332,7 @@
           }
           const warnHtml = warns.map((w) => `<span class="warn">${escapeHtml(w)}</span>`).join('');
           const download = it.downloadUrl
-            ? `<a href="${it.downloadUrl}" download="${escapeHtml(finalName)}" title="Baixar">⭳</a>`
+            ? `<a href="${it.downloadUrl}" download="${escapeHtml(finalName)}" class="dl-btn" title="Baixar este arquivo" aria-label="Baixar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg><span>Baixar</span></a>`
             : '';
           const reset = it.focus
             ? `<button type="button" data-reset="${it.id}" title="Voltar pro ponto global">↺ foco</button>`
@@ -2619,7 +2643,7 @@
             ? `<span class="saved">${formatSize(it.convertedSize)} · -${it.pct}%</span>`
             : `<span class="status">${escapeHtml(it.status)}</span>`;
           const downloadCell = it.downloadUrl
-            ? `<a href="${it.downloadUrl}" download="${escapeHtml(pdfOutName(it.name))}" title="Baixar">⭳</a>`
+            ? `<a href="${it.downloadUrl}" download="${escapeHtml(pdfOutName(it.name))}" class="dl-btn" title="Baixar este arquivo" aria-label="Baixar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg><span>Baixar</span></a>`
             : '';
           const safeName = escapeHtml(it.name);
           const noteHtml = it.note ? `<div class="pdf-note">${escapeHtml(it.note)}</div>` : '';

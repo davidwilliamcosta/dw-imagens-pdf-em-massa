@@ -36,6 +36,10 @@ Verificador de contraste de cores pela WCAG 2.2:
 - **Por cor**: cor do texto e do fundo (seletor, hex ou conta-gotas da tela no Chrome/Edge), razão de contraste,
   os critérios texto normal AA/AAA, texto grande AA/AAA e componentes de interface (1.4.11), e prévia ao vivo.
   Quando não passa, sugere a cor mais próxima (só mais clara ou mais escura) que passa no AA, ou no AAA.
+- **Análise geral da imagem**: varre a imagem em blocos, identifica os trechos com texto (duas cores bem separadas,
+  em manchas contínuas, com o traço entrando e saindo) e mede o contraste de cada um. Mostra um veredito (bom /
+  atenção / insuficiente), a proporção de trechos em cada nível, um mapa verde/amarelo/vermelho sobre a imagem e as
+  áreas problemáticas numeradas, cada uma clicável. Foto, degradê, textura e bordas simples ficam de fora.
 - **Por imagem**: extrai as cores principais de um print/banner (inclusive as de pouca área, como a de um texto),
   lista as combinações entre elas com o nível de cada uma, e permite clicar na imagem pra pegar a cor do texto e a
   do fundo, com lupa ampliada pra acertar letras finas.

@@ -1279,6 +1279,142 @@
       gap: 22px;
     }
 
+    .ct-analysis {
+      grid-column: 1 / -1;
+      display: grid;
+      gap: 12px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ct-verdict {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ct-verdict .ico {
+      flex: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .ct-verdict.good .ico {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .ct-verdict.warn .ico {
+      background: #FFF1D1;
+      color: #7A5200;
+    }
+
+    .ct-verdict.bad .ico {
+      background: #F7E3DE;
+      color: var(--danger);
+    }
+
+    .ct-verdict.none .ico {
+      background: var(--bg);
+      color: var(--ink-soft);
+    }
+
+    .ct-verdict strong {
+      display: block;
+      font-size: 15.5px;
+    }
+
+    .ct-verdict span {
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .ct-bar {
+      display: flex;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .ct-bar i {
+      display: block;
+      height: 100%;
+    }
+
+    .ct-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 16px;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    .ct-legend b {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      margin-right: 5px;
+    }
+
+    .ct-regions {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 6px;
+    }
+
+    .ct-regions:empty {
+      display: none;
+    }
+
+    .ct-region.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-soft);
+    }
+
+    .ct-region .n {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #1A1D21;
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ct-map-toggle {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+    }
+
+    .ct-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      border-radius: 5px;
+    }
+
+    .ct-overlay[hidden] {
+      display: none;
+    }
+
     .ct-img-area[hidden],
     #ctDropzone[hidden] {
       display: none;
@@ -1316,6 +1452,7 @@
 
     .ct-marker {
       position: absolute;
+      z-index: 1;
       width: 22px;
       height: 22px;
       margin: -11px 0 0 -11px;
@@ -1852,8 +1989,9 @@
 
       <div class="panel">
         <h2 class="ct-h">Verificar por imagem</h2>
-        <p class="ct-sub">Envie um print do site, um banner ou uma arte: o app mostra as cores principais, quais
-          combinações entre elas passam, e você clica na imagem pra pegar a cor do texto e a do fundo.</p>
+        <p class="ct-sub">Envie um print do site, um banner ou uma arte: o app analisa o contraste da imagem inteira,
+          marca as áreas com problema, mostra as cores principais e deixa você clicar na imagem pra pegar a cor do
+          texto e a do fundo.</p>
         <div class="dropzone" id="ctDropzone">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5B6470" stroke-width="1.6">
             <path d="M12 4v11M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round" />
@@ -1865,6 +2003,13 @@
         </div>
         <p class="wp-status err" id="ctImgError" hidden></p>
         <div class="ct-img-area" id="ctImgArea" hidden>
+          <div class="ct-analysis" id="ctAnalysis">
+            <div class="ct-verdict" id="ctVerdict"></div>
+            <div class="ct-bars" id="ctBars"></div>
+            <div class="ct-regions" id="ctRegions"></div>
+            <label class="ow ct-map-toggle"><input type="checkbox" id="ctMapToggle" checked> Mostrar o mapa de contraste
+              sobre a imagem</label>
+          </div>
           <div class="ct-img-col">
             <div class="ct-pickmode">
               Clique na imagem pra pegar:
@@ -1873,6 +2018,7 @@
             </div>
             <div class="ct-canvas-wrap" id="ctCanvasWrap">
               <canvas id="ctCanvas"></canvas>
+              <canvas id="ctOverlay" class="ct-overlay"></canvas>
               <div class="ct-marker" id="ctMarkFg" hidden>T</div>
               <div class="ct-marker" id="ctMarkBg" hidden>F</div>
               <div class="ct-loupe" id="ctLoupe" hidden><canvas width="88" height="88"></canvas><span></span></div>
@@ -3665,6 +3811,11 @@
       const pairsEl = $('ctPairs');
       const changeBtn = $('ctImgChange');
       const targetRadios = Array.from(document.querySelectorAll('input[name="ctTarget"]'));
+      const overlay = $('ctOverlay');
+      const verdictEl = $('ctVerdict');
+      const barsEl = $('ctBars');
+      const regionsEl = $('ctRegions');
+      const mapToggle = $('ctMapToggle');
 
       const KEY = 'webp-em-massa:contrast:v1';
       const state = { fg: '#1A1D21', bg: '#FFFFFF' };
@@ -3925,7 +4076,368 @@
         dropzone.hidden = true;
         imgArea.hidden = false;
         renderPalette();
+
+        verdictEl.className = 'ct-verdict none';
+        verdictEl.innerHTML = '<span class="ico">…</span><div><strong>Analisando a imagem…</strong></div>';
+        barsEl.innerHTML = '';
+        regionsEl.innerHTML = '';
+        overlay.hidden = true;
+        await new Promise(r => setTimeout(r, 30)); // deixa a tela pintar antes do trabalho pesado
+        analysis = analyzeImage(sc);
+        activeRegion = -1;
+        renderAnalysis();
       }
+
+      // ---------- análise geral ----------
+      // Varre a imagem em blocos. Num bloco com texto/ícone/botão há duas cores bem definidas
+      // (a do elemento e a do fundo): separa os pixels em escuros × claros (limiar de Otsu),
+      // pega a cor exata mais frequente de cada lado e mede o contraste entre elas. Blocos de
+      // cor lisa, foto ou textura (sem duas cores dominantes) ficam de fora.
+      let analysis = null;
+      let activeRegion = -1;
+      const TILE = 24;
+
+      function analyzeImage(src) {
+        const s = Math.min(1, 1600 / Math.max(src.width, src.height));
+        const aw = Math.max(1, Math.round(src.width * s));
+        const ah = Math.max(1, Math.round(src.height * s));
+        const ac = document.createElement('canvas');
+        ac.width = aw;
+        ac.height = ah;
+        const actx = ac.getContext('2d', { willReadFrequently: true });
+        actx.drawImage(src, 0, 0, aw, ah);
+        const data = actx.getImageData(0, 0, aw, ah).data;
+
+        const cols = Math.ceil(aw / TILE);
+        const rows = Math.ceil(ah / TILE);
+        const tiles = new Array(cols * rows).fill(null);
+        const hist = new Uint32Array(256);
+
+        for (let ty = 0; ty < rows; ty++) {
+          for (let tx = 0; tx < cols; tx++) {
+            const x0 = tx * TILE;
+            const y0 = ty * TILE;
+            const x1 = Math.min(aw, x0 + TILE);
+            const y1 = Math.min(ah, y0 + TILE);
+            hist.fill(0);
+            let n = 0;
+            let minY = 255;
+            let maxY = 0;
+            for (let y = y0; y < y1; y++) {
+              for (let x = x0; x < x1; x++) {
+                const i = (y * aw + x) * 4;
+                if (data[i + 3] < 128) continue;
+                const l = (data[i] * 54 + data[i + 1] * 183 + data[i + 2] * 19) >> 8;
+                hist[l]++;
+                n++;
+                if (l < minY) minY = l;
+                if (l > maxY) maxY = l;
+              }
+            }
+            if (n < (x1 - x0) * (y1 - y0) * 0.5 || maxY - minY < 10) continue; // transparente ou liso
+
+            // 1) duas cores de verdade? Otsu + eficácia da separação (η = variância entre os
+            //    grupos / variância total): texto sobre fundo dá ~0,9; foto, ruído e degradê, 0,6–0,75
+            const { t, between } = otsu(hist, n);
+            let mean = 0;
+            for (let l = 0; l < 256; l++) mean += l * hist[l];
+            mean /= n;
+            let total = 0;
+            for (let l = 0; l < 256; l++) total += hist[l] * (l - mean) * (l - mean);
+            if (!total || between / total < 0.8) continue;
+
+            // 2) padrão de texto: o traço entra e sai, então numa linha (ou coluna) que cruza
+            //    o elemento a cor troca 2+ vezes; a borda de um botão ou de uma foto troca 1 vez
+            const bw = x1 - x0;
+            const bh = y1 - y0;
+            const cls = new Int8Array(bw * bh);
+            for (let y = y0; y < y1; y++) {
+              for (let x = x0; x < x1; x++) {
+                const i = (y * aw + x) * 4;
+                const l = (data[i] * 54 + data[i + 1] * 183 + data[i + 2] * 19) >> 8;
+                cls[(y - y0) * bw + (x - x0)] = l >= t + 8 ? 1 : l <= t - 8 ? 0 : -1; // -1 = pixel de borda
+              }
+            }
+            // manchas contínuas (letra), não pontilhado (ruído de foto): vizinhos quase sempre
+            // têm o mesmo lado; no granulado eles trocam o tempo todo
+            let same = 0;
+            let pairs = 0;
+            for (let row = 0; row < bh; row++) {
+              for (let col = 0; col < bw; col++) {
+                const c = cls[row * bw + col];
+                if (c < 0) continue;
+                if (col + 1 < bw && cls[row * bw + col + 1] >= 0) { pairs++; if (cls[row * bw + col + 1] === c) same++; }
+                if (row + 1 < bh && cls[(row + 1) * bw + col] >= 0) { pairs++; if (cls[(row + 1) * bw + col] === c) same++; }
+              }
+            }
+            if (!pairs || same / pairs < 0.8) continue;
+
+            const strokeLike = (len, count, at) => {
+              let switches = 0;
+              let active = 0;
+              for (let a = 0; a < count; a++) {
+                let prev = -1;
+                let sw = 0;
+                for (let b = 0; b < len; b++) {
+                  const c = at(a, b);
+                  if (c < 0) continue; // atravessa a borda borrada sem contar troca
+                  if (prev >= 0 && c !== prev) sw++;
+                  prev = c;
+                }
+                if (sw) { switches += sw; active++; }
+              }
+              return active >= 2 && switches / active >= 1.6;
+            };
+            const isText = strokeLike(bw, bh, (row, col) => cls[row * bw + col])
+              || strokeLike(bh, bw, (col, row) => cls[row * bw + col]);
+            if (!isText) continue;
+
+            // 3) cor de cada lado. Fundo = a cor exata mais frequente do lado maior. Elemento =
+            //    entre as cores do lado menor com presença real (10%+ dele), a mais distante do
+            //    fundo — a mais frequente costuma ser o borrado da borda das letras
+            const groups = [new Map(), new Map()];
+            const counts = [0, 0];
+            for (let y = y0; y < y1; y++) {
+              for (let x = x0; x < x1; x++) {
+                const i = (y * aw + x) * 4;
+                if (data[i + 3] < 128) continue;
+                const l = (data[i] * 54 + data[i + 1] * 183 + data[i + 2] * 19) >> 8;
+                const g = l > t ? 1 : 0;
+                counts[g]++;
+                const key = ((data[i] >> 4) << 8) | ((data[i + 1] >> 4) << 4) | (data[i + 2] >> 4);
+                let e = groups[g].get(key);
+                if (!e) { e = [0, 0, 0, 0]; groups[g].set(key, e); }
+                e[0] += data[i]; e[1] += data[i + 1]; e[2] += data[i + 2]; e[3]++;
+              }
+            }
+            const minority = counts[0] < counts[1] ? 0 : 1;
+            if (counts[minority] < n * 0.02) continue; // só ruído/borda: nada a medir
+            const avg = e => [e[0] / e[3], e[1] / e[3], e[2] / e[3]].map(Math.round);
+
+            let bgE = null;
+            groups[1 - minority].forEach(e => { if (!bgE || e[3] > bgE[3]) bgE = e; });
+            const bg = avg(bgE);
+            const bgL = luminance(bg);
+            let fg = null;
+            let fgD = -1;
+            groups[minority].forEach(e => {
+              if (e[3] < Math.max(2, counts[minority] * 0.1)) return;
+              const c = avg(e);
+              const d = Math.abs(luminance(c) - bgL);
+              if (d > fgD) { fgD = d; fg = c; }
+            });
+            if (!fg) continue;
+
+            const r = contrast(fg, bg);
+            if (r < 1.3) continue; // diferença imperceptível: não é conteúdo
+            tiles[ty * cols + tx] = { tx, ty, r, fg, bg };
+          }
+        }
+
+        // agrupa blocos vizinhos abaixo de 4,5:1 em "áreas"
+        const seen = new Uint8Array(cols * rows);
+        const regions = [];
+        for (let i = 0; i < tiles.length; i++) {
+          if (!tiles[i] || tiles[i].r >= 4.5 || seen[i]) continue;
+          const stack = [i];
+          seen[i] = 1;
+          const members = [];
+          while (stack.length) {
+            const k = stack.pop();
+            members.push(tiles[k]);
+            const cx = k % cols;
+            const cy = (k - cx) / cols;
+            for (let dy = -1; dy <= 1; dy++) {
+              for (let dx = -1; dx <= 1; dx++) {
+                const nx = cx + dx;
+                const ny = cy + dy;
+                if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) continue;
+                const j = ny * cols + nx;
+                if (seen[j] || !tiles[j] || tiles[j].r >= 4.5) continue;
+                if (!samePair(tiles[j], tiles[k])) continue;
+                seen[j] = 1;
+                stack.push(j);
+              }
+            }
+          }
+          // a cor típica da área = a do bloco com o par de cores mais comum nela
+          const tally = new Map();
+          members.forEach(m => {
+            const key = rgbToHex(m.fg) + rgbToHex(m.bg);
+            const e = tally.get(key) || { m, c: 0 };
+            e.c++;
+            tally.set(key, e);
+          });
+          let typical = null;
+          tally.forEach(e => { if (!typical || e.c > typical.c) typical = e; });
+          const xs = members.map(m => m.tx);
+          const ys = members.map(m => m.ty);
+          regions.push({
+            x: Math.min(...xs) * TILE,
+            y: Math.min(...ys) * TILE,
+            w: (Math.max(...xs) + 1) * TILE - Math.min(...xs) * TILE,
+            h: (Math.max(...ys) + 1) * TILE - Math.min(...ys) * TILE,
+            size: members.length,
+            r: typical.m.r,
+            fg: typical.m.fg,
+            bg: typical.m.bg,
+          });
+        }
+        // as piores primeiro; com o mesmo nível, as maiores
+        regions.sort((a, b) => (a.r < 3) !== (b.r < 3) ? (a.r < 3 ? -1 : 1) : (b.size - a.size) || (a.r - b.r));
+
+        const content = tiles.filter(Boolean);
+        return {
+          aw, ah, cols, rows, tiles, regions,
+          total: content.length,
+          good: content.filter(t => t.r >= 4.5).length,
+          large: content.filter(t => t.r >= 3 && t.r < 4.5).length,
+          bad: content.filter(t => t.r < 3).length,
+        };
+      }
+
+      /** mesmo par de cores, em qualquer ordem (dentro de letra grossa o "lado menor" se inverte) */
+      function samePair(a, b) {
+        return (dist(a.fg, b.fg) <= 40 && dist(a.bg, b.bg) <= 40)
+          || (dist(a.fg, b.bg) <= 40 && dist(a.bg, b.fg) <= 40);
+      }
+
+      /** limiar de Otsu num histograma de 256 tons (+ variância entre os grupos, pra η) */
+      function otsu(hist, n) {
+        let sum = 0;
+        for (let i = 0; i < 256; i++) sum += i * hist[i];
+        let sumB = 0;
+        let wB = 0;
+        let best = 0;
+        let t = 127;
+        for (let i = 0; i < 256; i++) {
+          wB += hist[i];
+          if (!wB) continue;
+          const wF = n - wB;
+          if (!wF) break;
+          sumB += i * hist[i];
+          const mB = sumB / wB;
+          const mF = (sum - sumB) / wF;
+          const between = wB * wF * (mB - mF) * (mB - mF);
+          if (between > best) { best = between; t = i; }
+        }
+        return { t, between: best / n }; // η = between / Σ hist·(l − média)²
+      }
+
+      function pct(part, total) {
+        const v = total ? (part / total) * 100 : 0;
+        return v > 0 && v < 1 ? '<1' : String(Math.round(v));
+      }
+
+      function renderAnalysis() {
+        const a = analysis;
+        const badRegions = a.regions.filter(r => r.r < 3);
+        const warnRegions = a.regions.filter(r => r.r >= 3);
+        let cls;
+        let ico;
+        let title;
+        let sub;
+        if (!a.total) {
+          cls = 'none'; ico = '?';
+          title = 'Não encontrei texto ou elementos pra medir';
+          sub = 'A imagem é lisa, ou é foto/textura sem cores bem definidas. Use o clique na imagem pra medir um ponto específico.';
+        } else if (!a.regions.length) {
+          cls = 'good'; ico = '✓';
+          title = 'Contraste bom em toda a imagem';
+          sub = `Todos os ${a.total} trechos com texto ou elementos passam no AA (4,5:1).`;
+        } else if (!badRegions.length) {
+          cls = 'warn'; ico = '!';
+          title = `Atenção: ${warnRegions.length} ${warnRegions.length === 1 ? 'área passa' : 'áreas passam'} só pra texto grande`;
+          sub = 'Entre 3:1 e 4,5:1 — ok pra título (24px+) e ícones, insuficiente pra texto de corpo.';
+        } else {
+          cls = 'bad'; ico = '✕';
+          title = `Contraste insuficiente em ${badRegions.length} ${badRegions.length === 1 ? 'área' : 'áreas'}`;
+          sub = 'Abaixo de 3:1 não passa nem pra texto grande. Veja as áreas numeradas no mapa'
+            + (warnRegions.length ? `; outras ${warnRegions.length} passam só pra texto grande.` : '.');
+        }
+        verdictEl.className = 'ct-verdict ' + cls;
+        verdictEl.innerHTML = `<span class="ico">${ico}</span><div><strong>${title}</strong><span>${sub}</span></div>`;
+
+        barsEl.innerHTML = a.total ? `
+          <div class="ct-bar">
+            <i style="width:${(a.good / a.total) * 100}%;background:#2E9E7A"></i>
+            <i style="width:${(a.large / a.total) * 100}%;background:#E3A21A"></i>
+            <i style="width:${(a.bad / a.total) * 100}%;background:#D1492C"></i>
+          </div>
+          <div class="ct-legend">
+            <span><b style="background:#2E9E7A"></b>${pct(a.good, a.total)}% passa no AA</span>
+            <span><b style="background:#E3A21A"></b>${pct(a.large, a.total)}% só texto grande</span>
+            <span><b style="background:#D1492C"></b>${pct(a.bad, a.total)}% abaixo de 3:1</span>
+          </div>` : '';
+
+        const shown = a.regions.slice(0, 12);
+        regionsEl.innerHTML = shown.map((r, i) => {
+          const fg = rgbToHex(r.fg);
+          const bg = rgbToHex(r.bg);
+          const lv = levelOf(r.r);
+          return `<button type="button" class="ct-pair ct-region${i === activeRegion ? ' active' : ''}" data-region="${i}" title="Destacar no mapa e levar as cores pro verificador">
+            <span class="n">${i + 1}</span>
+            <span class="ct-aa" style="color:${fg};background:${bg}">Aa</span>
+            <span><span class="r">${fmtRatio(r.r)}:1</span><span class="h">${fg} sobre ${bg}</span></span>
+            <span class="ct-badge ${lv.cls}">${lv.text}</span>
+          </button>`;
+        }).join('') + (a.regions.length > shown.length
+          ? `<p class="ct-sub">+ ${a.regions.length - shown.length} áreas menores marcadas no mapa.</p>` : '');
+        drawOverlay();
+      }
+
+      function drawOverlay() {
+        const a = analysis;
+        if (!a || !mapToggle.checked || !a.total) { overlay.hidden = true; return; }
+        overlay.width = a.aw;
+        overlay.height = a.ah;
+        const o = overlay.getContext('2d');
+        o.clearRect(0, 0, a.aw, a.ah);
+        a.tiles.forEach(t => {
+          if (!t) return;
+          o.fillStyle = t.r >= 4.5 ? 'rgba(46,158,122,0.28)' : t.r >= 3 ? 'rgba(227,162,26,0.42)' : 'rgba(209,73,44,0.5)';
+          o.fillRect(t.tx * TILE, t.ty * TILE, TILE, TILE);
+        });
+        // números das áreas listadas (mesma escala visual qualquer que seja o tamanho da imagem)
+        const px = a.aw / Math.max(1, canvas.getBoundingClientRect().width || a.aw);
+        a.regions.slice(0, 12).forEach((r, i) => {
+          const active = i === activeRegion;
+          o.lineWidth = (active ? 3 : 1.5) * px;
+          o.strokeStyle = active ? '#FFFFFF' : 'rgba(26,29,33,0.85)';
+          o.strokeRect(r.x, r.y, r.w, r.h);
+          const rad = 9 * px;
+          const cx = r.x + rad + 2 * px;
+          const cy = r.y + rad + 2 * px;
+          o.beginPath();
+          o.arc(cx, cy, rad, 0, Math.PI * 2);
+          o.fillStyle = active ? '#0E6B5C' : '#1A1D21';
+          o.fill();
+          o.fillStyle = '#FFFFFF';
+          o.font = `700 ${11 * px}px sans-serif`;
+          o.textAlign = 'center';
+          o.textBaseline = 'middle';
+          o.fillText(String(i + 1), cx, cy + 0.5 * px);
+        });
+        overlay.hidden = false;
+      }
+
+      mapToggle.addEventListener('change', drawOverlay);
+      regionsEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-region]');
+        if (!btn) return;
+        activeRegion = Number(btn.dataset.region);
+        const r = analysis.regions[activeRegion];
+        state.fg = rgbToHex(r.fg);
+        state.bg = rgbToHex(r.bg);
+        markers.fg.hidden = true;
+        markers.bg.hidden = true;
+        save();
+        syncInputs();
+        render();
+        if (!mapToggle.checked) mapToggle.checked = true;
+        renderAnalysis();
+      });
+      window.addEventListener('resize', () => { if (analysis && !imgArea.hidden) drawOverlay(); });
 
       /** cores dominantes: histograma em baldes de 5 bits + k-means ponderado sobre os baldes */
       function extractPalette(data, maxColors) {

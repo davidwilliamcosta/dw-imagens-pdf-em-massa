@@ -998,6 +998,472 @@
       text-decoration: none;
     }
 
+    /* ---- Modo Contraste ---- */
+    .ct-top {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    .ct-colors {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .ct-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .ct-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ct-input input[type="color"] {
+      flex: none;
+      width: 44px;
+      height: 38px;
+      padding: 2px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+      cursor: pointer;
+    }
+
+    .ct-input input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--font-data);
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .ct-input input[type="text"].invalid {
+      border-color: var(--danger);
+      outline-color: var(--danger);
+    }
+
+    .ct-eye {
+      flex: none;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--ink-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ct-eye[hidden] {
+      display: none;
+    }
+
+    .ct-eye:hover {
+      border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+
+    .ct-swap {
+      align-self: flex-start;
+      padding: 5px 12px;
+      font-size: 13px;
+    }
+
+    .ct-preview {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.15s, color 0.15s;
+    }
+
+    .ct-ratio {
+      font-family: var(--font-data);
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .ct-ratio small {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+
+    .ct-big {
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1.25;
+      margin: 6px 0 0;
+    }
+
+    .ct-normal {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .ct-ui {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .ct-ui-btn {
+      border: 2px solid currentColor;
+      border-radius: 6px;
+      padding: 3px 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .ct-ui-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .ct-checks {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .ct-check {
+      display: grid;
+      gap: 4px;
+      align-content: start;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .ct-check.pass {
+      border-color: #B8DCD4;
+    }
+
+    .ct-check.fail {
+      border-color: #EDC5BB;
+    }
+
+    .ct-check .t {
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    .ct-check .m {
+      font-size: 11.5px;
+      color: var(--ink-soft);
+    }
+
+    .ct-badge {
+      justify-self: start;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 2px 9px;
+      white-space: nowrap;
+    }
+
+    .ct-badge.pass {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .ct-badge.warn {
+      background: #FFF1D1;
+      color: #7A5200;
+    }
+
+    .ct-badge.fail {
+      background: #F7E3DE;
+      color: var(--danger);
+    }
+
+    .ct-suggest {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .ct-suggest-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+
+    .ct-sugg-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .ct-sugg,
+    .ct-pair {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px 5px 5px;
+      background: var(--panel);
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    .ct-sugg:hover,
+    .ct-pair:hover {
+      border-color: var(--accent);
+    }
+
+    .ct-sugg .h,
+    .ct-pair .h {
+      display: block;
+      font-family: var(--font-data);
+      font-size: 11.5px;
+      color: var(--ink-soft);
+    }
+
+    .ct-aa {
+      flex: none;
+      width: 42px;
+      height: 32px;
+      border-radius: 5px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .ct-note {
+      margin-top: 14px;
+    }
+
+    .ct-h {
+      font-size: 16px;
+      margin: 0 0 4px;
+    }
+
+    .ct-sub {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin: 0 0 14px;
+      max-width: 70ch;
+    }
+
+    .ct-img-area {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    .ct-img-area[hidden],
+    #ctDropzone[hidden] {
+      display: none;
+    }
+
+    .ct-pickmode {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 12px;
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-bottom: 10px;
+    }
+
+    .ct-canvas-wrap {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      line-height: 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+    }
+
+    #ctCanvas {
+      display: block;
+      max-width: 100%;
+      max-height: 480px;
+      width: auto;
+      height: auto;
+      cursor: crosshair;
+      border-radius: 5px;
+    }
+
+    .ct-marker {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      margin: -11px 0 0 -11px;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55);
+      background: var(--accent);
+      color: #FFFFFF;
+      font: 700 10px/18px var(--font-ui);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .ct-marker[hidden],
+    .ct-loupe[hidden] {
+      display: none;
+    }
+
+    .ct-loupe {
+      position: absolute;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 4px;
+      background: rgba(20, 24, 28, 0.9);
+      border-radius: 7px;
+      pointer-events: none;
+      line-height: 1.2;
+    }
+
+    .ct-loupe canvas {
+      width: 88px;
+      height: 88px;
+      border-radius: 4px;
+      image-rendering: pixelated;
+    }
+
+    .ct-loupe span {
+      font: 500 11px var(--font-data);
+      color: #FFFFFF;
+    }
+
+    .ct-img-actions {
+      margin-top: 10px;
+    }
+
+    .ct-img-actions button {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    .ct-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin: 0 0 8px;
+    }
+
+    .ct-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .ct-swatch {
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      overflow: hidden;
+      font-size: 11px;
+    }
+
+    .ct-swatch .c {
+      height: 34px;
+    }
+
+    .ct-swatch .i {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 6px;
+      font-family: var(--font-data);
+    }
+
+    .ct-swatch .i span:last-child {
+      color: var(--ink-soft);
+    }
+
+    .ct-swatch .b {
+      display: flex;
+      border-top: 1px solid var(--border);
+    }
+
+    .ct-swatch .b button {
+      flex: 1;
+      padding: 3px 0;
+      border: none;
+      border-radius: 0;
+      background: none;
+      color: var(--ink-soft);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .ct-swatch .b button+button {
+      border-left: 1px solid var(--border);
+    }
+
+    .ct-swatch .b button:hover {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .ct-pairs {
+      display: grid;
+      gap: 6px;
+      max-height: 380px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .ct-pair .r {
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 56px;
+    }
+
+    .ct-pair .ct-badge {
+      margin-left: auto;
+    }
+
+    @media (max-width: 720px) {
+
+      .ct-top,
+      .ct-img-area {
+        grid-template-columns: 1fr;
+      }
+
+      .ct-checks {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     @media (max-width: 720px) {
       .crop-settings {
         grid-template-columns: 1fr;
@@ -1060,12 +1526,14 @@
         <li>Envio para WordPress</li>
         <li>Recorte em massa</li>
         <li>Compressão de PDF</li>
+        <li>Contraste de cores (WCAG)</li>
       </ul>
     </header>
 
     <div class="mode-tabs">
       <button type="button" class="mode-tab active" id="tabImages">Imagens</button>
       <button type="button" class="mode-tab" id="tabCrop">Recortar</button>
+      <button type="button" class="mode-tab" id="tabContrast">Contraste</button>
       <button type="button" class="mode-tab" id="tabPdf">PDF</button>
     </div>
 
@@ -1346,6 +1814,82 @@
         <button id="cropDownloadZipBtn" disabled>Baixar tudo (.zip)</button>
       </div>
     </div><!-- /cropMode -->
+
+    <div id="contrastMode" style="display:none;">
+      <div class="panel">
+        <div class="ct-top">
+          <div class="ct-colors">
+            <div class="ct-field">
+              <label for="ctFgHex">Cor do texto</label>
+              <div class="ct-input">
+                <input type="color" id="ctFgPick" aria-label="Escolher a cor do texto">
+                <input type="text" id="ctFgHex" spellcheck="false" maxlength="7" autocomplete="off">
+                <button type="button" class="ct-eye" data-eye="fg" title="Pegar uma cor de qualquer lugar da tela" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4.5l5 5"/><path d="M17 2l5 5-3 3-5-5z"/><path d="M14 7l-9.3 9.3a2 2 0 00-.5 1L3.5 20.5l3.2-.7a2 2 0 001-.5L17 10"/></svg></button>
+              </div>
+            </div>
+            <button type="button" class="btn-ghost ct-swap" id="ctSwap" title="Inverter texto e fundo">⇅ Inverter</button>
+            <div class="ct-field">
+              <label for="ctBgHex">Cor do fundo</label>
+              <div class="ct-input">
+                <input type="color" id="ctBgPick" aria-label="Escolher a cor do fundo">
+                <input type="text" id="ctBgHex" spellcheck="false" maxlength="7" autocomplete="off">
+                <button type="button" class="ct-eye" data-eye="bg" title="Pegar uma cor de qualquer lugar da tela" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4.5l5 5"/><path d="M17 2l5 5-3 3-5-5z"/><path d="M14 7l-9.3 9.3a2 2 0 00-.5 1L3.5 20.5l3.2-.7a2 2 0 001-.5L17 10"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="ct-preview" id="ctPreview">
+            <div class="ct-ratio"><span id="ctRatio">–</span><small>:1</small></div>
+            <p class="ct-big">Texto grande de exemplo</p>
+            <p class="ct-normal">Texto normal de exemplo: é assim que um parágrafo fica com estas duas cores.</p>
+            <div class="ct-ui"><span class="ct-ui-btn">Botão</span><span class="ct-ui-icon" aria-hidden="true">★</span></div>
+          </div>
+        </div>
+        <div class="ct-checks" id="ctChecks"></div>
+        <div class="ct-suggest" id="ctSuggest" hidden></div>
+        <p class="importer-note ct-note">Texto grande = a partir de 24px, ou 18,5px em negrito. Contraste calculado pela
+          fórmula de luminância relativa da WCAG 2.2, sem arredondar pra cima (4,49:1 não passa no 4,5:1).</p>
+      </div>
+
+      <div class="panel">
+        <h2 class="ct-h">Verificar por imagem</h2>
+        <p class="ct-sub">Envie um print do site, um banner ou uma arte: o app mostra as cores principais, quais
+          combinações entre elas passam, e você clica na imagem pra pegar a cor do texto e a do fundo.</p>
+        <div class="dropzone" id="ctDropzone">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5B6470" stroke-width="1.6">
+            <path d="M12 4v11M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M5 16v2a2 2 0 002 2h10a2 2 0 002-2v-2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="main">Arraste uma imagem aqui ou clique para escolher</div>
+          <div class="sub">Print de tela, banner, post… (fica só no seu navegador)</div>
+          <input type="file" id="ctFileInput" accept="image/*">
+        </div>
+        <p class="wp-status err" id="ctImgError" hidden></p>
+        <div class="ct-img-area" id="ctImgArea" hidden>
+          <div class="ct-img-col">
+            <div class="ct-pickmode">
+              Clique na imagem pra pegar:
+              <label class="seg"><input type="radio" name="ctTarget" value="fg" checked><span>Texto</span></label>
+              <label class="seg"><input type="radio" name="ctTarget" value="bg"><span>Fundo</span></label>
+            </div>
+            <div class="ct-canvas-wrap" id="ctCanvasWrap">
+              <canvas id="ctCanvas"></canvas>
+              <div class="ct-marker" id="ctMarkFg" hidden>T</div>
+              <div class="ct-marker" id="ctMarkBg" hidden>F</div>
+              <div class="ct-loupe" id="ctLoupe" hidden><canvas width="88" height="88"></canvas><span></span></div>
+            </div>
+            <div class="ct-img-actions">
+              <button type="button" class="btn-ghost" id="ctImgChange">Trocar imagem</button>
+            </div>
+          </div>
+          <div class="ct-pal-col">
+            <span class="ct-label">Cores principais da imagem</span>
+            <div class="ct-palette" id="ctPalette"></div>
+            <span class="ct-label">Combinações entre elas</span>
+            <div class="ct-pairs" id="ctPairs"></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /contrastMode -->
 
     <div id="pdfMode" style="display:none;">
       <div class="panel">
@@ -2387,6 +2931,7 @@
       var modes = [
         { key: 'images', btn: document.getElementById('tabImages'), el: document.getElementById('imageMode') },
         { key: 'crop', btn: document.getElementById('tabCrop'), el: document.getElementById('cropMode') },
+        { key: 'contrast', btn: document.getElementById('tabContrast'), el: document.getElementById('contrastMode') },
         { key: 'pdf', btn: document.getElementById('tabPdf'), el: document.getElementById('pdfMode') },
       ];
       function show(key) {
@@ -3088,6 +3633,460 @@
       });
 
       syncSettingsUI();
+    })();
+  </script>
+
+  <script>
+    // ---------------------------------------------------------------------
+    // Modo Contraste — verificador WCAG 2.2 por cor e por imagem. IIFE própria,
+    // não encosta nas outras abas.
+    // ---------------------------------------------------------------------
+    (function () {
+      const $ = (id) => document.getElementById(id);
+      const fgPick = $('ctFgPick');
+      const fgHex = $('ctFgHex');
+      const bgPick = $('ctBgPick');
+      const bgHex = $('ctBgHex');
+      const swapBtn = $('ctSwap');
+      const preview = $('ctPreview');
+      const ratioEl = $('ctRatio');
+      const checksEl = $('ctChecks');
+      const suggestEl = $('ctSuggest');
+      const dropzone = $('ctDropzone');
+      const fileInput = $('ctFileInput');
+      const imgError = $('ctImgError');
+      const imgArea = $('ctImgArea');
+      const canvas = $('ctCanvas');
+      const loupe = $('ctLoupe');
+      const loupeCanvas = loupe.querySelector('canvas');
+      const loupeText = loupe.querySelector('span');
+      const markers = { fg: $('ctMarkFg'), bg: $('ctMarkBg') };
+      const paletteEl = $('ctPalette');
+      const pairsEl = $('ctPairs');
+      const changeBtn = $('ctImgChange');
+      const targetRadios = Array.from(document.querySelectorAll('input[name="ctTarget"]'));
+
+      const KEY = 'webp-em-massa:contrast:v1';
+      const state = { fg: '#1A1D21', bg: '#FFFFFF' };
+      try {
+        const saved = JSON.parse(localStorage.getItem(KEY)) || {};
+        if (parseHex(saved.fg)) state.fg = parseHex(saved.fg);
+        if (parseHex(saved.bg)) state.bg = parseHex(saved.bg);
+      } catch (e) { /* sem storage */ }
+      function save() {
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* sem storage */ }
+      }
+
+      // ---------- matemática de cor (WCAG 2.x) ----------
+      function parseHex(v) {
+        let s = String(v == null ? '' : v).trim().replace(/^#/, '');
+        if (/^[0-9a-f]{3}$/i.test(s)) s = s.split('').map(c => c + c).join('');
+        return /^[0-9a-f]{6}$/i.test(s) ? '#' + s.toUpperCase() : null;
+      }
+      function hexToRgb(h) {
+        const n = parseInt(h.slice(1), 16);
+        return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+      }
+      function rgbToHex(rgb) {
+        return '#' + rgb.map(v => Math.round(v).toString(16).padStart(2, '0')).join('').toUpperCase();
+      }
+      function channel(c) {
+        const v = c / 255;
+        return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      }
+      function luminance(rgb) {
+        return 0.2126 * channel(rgb[0]) + 0.7152 * channel(rgb[1]) + 0.0722 * channel(rgb[2]);
+      }
+      function contrast(a, b) {
+        const la = luminance(a);
+        const lb = luminance(b);
+        return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+      }
+      // a WCAG não permite arredondar pra cima: 4,499 não passa no 4,5
+      function fmtRatio(r) {
+        return (Math.floor(r * 100) / 100).toFixed(2).replace('.', ',');
+      }
+      function rgbToHsl([r, g, b]) {
+        r /= 255; g /= 255; b /= 255;
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        const l = (max + min) / 2;
+        if (max === min) return [0, 0, l];
+        const d = max - min;
+        const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        let h;
+        if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+        else if (max === g) h = (b - r) / d + 2;
+        else h = (r - g) / d + 4;
+        return [h * 60, s, l];
+      }
+      function hslToRgb(h, s, l) {
+        const k = n => (n + h / 30) % 12;
+        const a = s * Math.min(l, 1 - l);
+        const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+        return [f(0), f(8), f(4)].map(v => Math.round(v * 255));
+      }
+      function dist(a, b) {
+        return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+      }
+
+      const CHECKS = [
+        { label: 'Texto normal', level: 'AA', min: 4.5, crit: '1.4.3' },
+        { label: 'Texto normal', level: 'AAA', min: 7, crit: '1.4.6' },
+        { label: 'Texto grande', level: 'AA', min: 3, crit: '1.4.3' },
+        { label: 'Texto grande', level: 'AAA', min: 4.5, crit: '1.4.6' },
+        { label: 'Ícones, bordas e botões', level: 'AA', min: 3, crit: '1.4.11' },
+      ];
+
+      function levelOf(r) {
+        if (r >= 7) return { text: 'AAA', cls: 'pass' };
+        if (r >= 4.5) return { text: 'AA', cls: 'pass' };
+        if (r >= 3) return { text: 'só texto grande', cls: 'warn' };
+        return { text: 'não passa', cls: 'fail' };
+      }
+
+      /** mesma cor, só mais clara ou mais escura (HSL), até bater a meta — a menor mudança possível */
+      function adjustToTarget(rgb, other, target, dir) {
+        const [h, s, l] = rgbToHsl(rgb);
+        for (let i = 1; i <= 500; i++) {
+          const nl = l + dir * i * 0.002;
+          if (nl < 0 || nl > 1) break;
+          const c = hslToRgb(h, s, nl);
+          if (contrast(c, other) >= target) return c;
+        }
+        const extreme = hslToRgb(h, s, dir < 0 ? 0 : 1);
+        return contrast(extreme, other) >= target ? extreme : null;
+      }
+
+      // ---------- UI ----------
+      function syncInputs(skipText) {
+        fgPick.value = state.fg.toLowerCase();
+        bgPick.value = state.bg.toLowerCase();
+        if (skipText !== 'fg') { fgHex.value = state.fg; fgHex.classList.remove('invalid'); }
+        if (skipText !== 'bg') { bgHex.value = state.bg; bgHex.classList.remove('invalid'); }
+      }
+
+      function setColor(slot, hex, opts = {}) {
+        if (!hex) return;
+        state[slot] = hex;
+        if (!opts.keepMarker) markers[slot].hidden = true;
+        save();
+        syncInputs(opts.skipText ? slot : null);
+        render();
+      }
+
+      function render() {
+        const f = hexToRgb(state.fg);
+        const b = hexToRgb(state.bg);
+        const r = contrast(f, b);
+        preview.style.color = state.fg;
+        preview.style.backgroundColor = state.bg;
+        ratioEl.textContent = fmtRatio(r);
+        checksEl.innerHTML = CHECKS.map(c => {
+          const ok = r >= c.min;
+          return `<div class="ct-check ${ok ? 'pass' : 'fail'}">
+            <span class="t">${c.label} · ${c.level}</span>
+            <span class="m">mín. ${String(c.min).replace('.', ',')}:1 · WCAG ${c.crit}</span>
+            <span class="ct-badge ${ok ? 'pass' : 'fail'}">${ok ? 'Passa' : 'Não passa'}</span>
+          </div>`;
+        }).join('');
+        renderSuggestions(f, b, r);
+      }
+
+      function renderSuggestions(f, b, r) {
+        const target = r < 4.5 ? 4.5 : r < 7 ? 7 : null;
+        if (!target) { suggestEl.hidden = true; suggestEl.innerHTML = ''; return; }
+        const seen = new Set();
+        const list = [
+          { slot: 'fg', label: 'Texto mais escuro', c: adjustToTarget(f, b, target, -1), from: f },
+          { slot: 'fg', label: 'Texto mais claro', c: adjustToTarget(f, b, target, 1), from: f },
+          { slot: 'bg', label: 'Fundo mais escuro', c: adjustToTarget(b, f, target, -1), from: b },
+          { slot: 'bg', label: 'Fundo mais claro', c: adjustToTarget(b, f, target, 1), from: b },
+        ].filter(x => x.c && !seen.has(x.slot + rgbToHex(x.c)) && seen.add(x.slot + rgbToHex(x.c)))
+          .sort((x, y) => dist(x.c, x.from) - dist(y.c, y.from));
+
+        const title = target === 4.5
+          ? 'Não passa no AA pra texto normal. Cores próximas que passam (4,5:1):'
+          : 'Já passa no AA. Pra chegar ao AAA (7:1), cores próximas:';
+        if (!list.length) {
+          suggestEl.hidden = false;
+          suggestEl.innerHTML = `<p class="ct-suggest-title">${title}</p><p class="ct-sub">Nenhum ajuste só de claridade chega lá — troque uma das cores.</p>`;
+          return;
+        }
+        suggestEl.hidden = false;
+        suggestEl.innerHTML = `<p class="ct-suggest-title">${title}</p><div class="ct-sugg-list">`
+          + list.map(x => {
+            const hex = rgbToHex(x.c);
+            const fg = x.slot === 'fg' ? hex : state.fg;
+            const bg = x.slot === 'bg' ? hex : state.bg;
+            return `<button type="button" class="ct-sugg" data-slot="${x.slot}" data-hex="${hex}" title="Aplicar">
+              <span class="ct-aa" style="color:${fg};background:${bg}">Aa</span>
+              <span>${x.label}<span class="h">${hex} · ${fmtRatio(contrast(hexToRgb(fg), hexToRgb(bg)))}:1</span></span>
+            </button>`;
+          }).join('') + '</div>';
+      }
+
+      suggestEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('.ct-sugg');
+        if (btn) setColor(btn.dataset.slot, btn.dataset.hex);
+      });
+
+      [['fg', fgHex, fgPick], ['bg', bgHex, bgPick]].forEach(([slot, text, pick]) => {
+        text.addEventListener('input', () => {
+          const hex = parseHex(text.value);
+          text.classList.toggle('invalid', !hex);
+          if (hex) setColor(slot, hex, { skipText: true });
+        });
+        text.addEventListener('blur', () => syncInputs());
+        pick.addEventListener('input', () => setColor(slot, parseHex(pick.value)));
+      });
+
+      swapBtn.addEventListener('click', () => {
+        const fg = state.fg;
+        state.fg = state.bg;
+        state.bg = fg;
+        markers.fg.hidden = true;
+        markers.bg.hidden = true;
+        save();
+        syncInputs();
+        render();
+      });
+
+      // conta-gotas nativo (Chrome/Edge): pega cor de qualquer lugar da tela
+      if ('EyeDropper' in window) {
+        document.querySelectorAll('#contrastMode [data-eye]').forEach(btn => {
+          btn.hidden = false;
+          btn.addEventListener('click', async () => {
+            try {
+              const r = await new window.EyeDropper().open();
+              setColor(btn.dataset.eye, parseHex(r.sRGBHex));
+            } catch (e) { /* cancelado */ }
+          });
+        });
+      }
+
+      // ---------- imagem ----------
+      let sampleCtx = null;
+      let sampleW = 0;
+      let sampleH = 0;
+      let palette = [];
+
+      dropzone.addEventListener('click', () => fileInput.click());
+      ['dragenter', 'dragover'].forEach(evt => dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('drag');
+      }));
+      ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('drag');
+      }));
+      dropzone.addEventListener('drop', (e) => loadImage(e.dataTransfer.files[0]));
+      fileInput.addEventListener('change', () => { loadImage(fileInput.files[0]); fileInput.value = ''; });
+      changeBtn.addEventListener('click', () => fileInput.click());
+
+      async function loadImage(file) {
+        imgError.hidden = true;
+        if (!file || !file.type.startsWith('image/')) return;
+        let bmp;
+        try {
+          bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+        } catch (e) {
+          imgError.textContent = 'O navegador não conseguiu abrir esta imagem.';
+          imgError.hidden = false;
+          return;
+        }
+        // amostragem em até 2400px no maior lado: precisão de sobra pra pegar cor de letra
+        const s = Math.min(1, 2400 / Math.max(bmp.width, bmp.height));
+        sampleW = Math.max(1, Math.round(bmp.width * s));
+        sampleH = Math.max(1, Math.round(bmp.height * s));
+        const sc = document.createElement('canvas');
+        sc.width = sampleW;
+        sc.height = sampleH;
+        sampleCtx = sc.getContext('2d', { willReadFrequently: true });
+        sampleCtx.drawImage(bmp, 0, 0, sampleW, sampleH);
+        if (bmp.close) bmp.close();
+
+        canvas.width = sampleW;
+        canvas.height = sampleH;
+        canvas.getContext('2d').drawImage(sc, 0, 0);
+
+        // paleta a partir de uma versão de até 800px: pequena o bastante pra ser rápida,
+        // grande o bastante pra letra de corpo normal ainda ter pixels de cor pura
+        const ps = Math.min(1, 800 / Math.max(sampleW, sampleH));
+        const pc = document.createElement('canvas');
+        pc.width = Math.max(1, Math.round(sampleW * ps));
+        pc.height = Math.max(1, Math.round(sampleH * ps));
+        const pctx = pc.getContext('2d', { willReadFrequently: true });
+        pctx.drawImage(sc, 0, 0, pc.width, pc.height);
+        palette = extractPalette(pctx.getImageData(0, 0, pc.width, pc.height).data, 10);
+
+        markers.fg.hidden = true;
+        markers.bg.hidden = true;
+        dropzone.hidden = true;
+        imgArea.hidden = false;
+        renderPalette();
+      }
+
+      /** cores dominantes: histograma em baldes de 5 bits + k-means ponderado sobre os baldes */
+      function extractPalette(data, maxColors) {
+        const buckets = new Map();
+        let total = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          if (data[i + 3] < 128) continue;
+          const key = ((data[i] >> 3) << 10) | ((data[i + 1] >> 3) << 5) | (data[i + 2] >> 3);
+          let e = buckets.get(key);
+          if (!e) { e = [0, 0, 0, 0]; buckets.set(key, e); }
+          e[0] += data[i]; e[1] += data[i + 1]; e[2] += data[i + 2]; e[3]++;
+          total++;
+        }
+        if (!total) return [];
+        const pts = Array.from(buckets.values())
+          .map(e => ({ c: [e[0] / e[3], e[1] / e[3], e[2] / e[3]], w: e[3] }))
+          .sort((a, b) => b.w - a.w);
+
+        // começa pelas cores mais frequentes que sejam bem diferentes entre si (inclusive as de
+        // pouca área, como a de um texto: o mínimo é 0,1% da imagem)
+        let cents = [];
+        for (const p of pts) {
+          if (cents.length >= maxColors || p.w / total < 0.001) break;
+          if (cents.every(c => dist(c, p.c) > 40)) cents.push(p.c.slice());
+        }
+        let weights = [];
+        let modes = [];
+        for (let it = 0; it < 10; it++) {
+          const acc = cents.map(() => [0, 0, 0, 0]);
+          modes = cents.map(() => null);
+          for (const p of pts) {
+            let bi = 0;
+            let bd = Infinity;
+            for (let i = 0; i < cents.length; i++) {
+              const d = dist(cents[i], p.c);
+              if (d < bd) { bd = d; bi = i; }
+            }
+            const a = acc[bi];
+            a[0] += p.c[0] * p.w; a[1] += p.c[1] * p.w; a[2] += p.c[2] * p.w; a[3] += p.w;
+            if (!modes[bi] || p.w > modes[bi].w) modes[bi] = p;
+          }
+          cents = acc.map((a, i) => (a[3] ? [a[0] / a[3], a[1] / a[3], a[2] / a[3]] : cents[i]));
+          weights = acc.map(a => a[3]);
+        }
+        // cada grupo é representado pela sua cor exata mais frequente, não pela média: a média
+        // mistura os pixels de borda (antialiasing) e "puxa" a cor do texto em direção ao fundo
+        const out = [];
+        cents.forEach((c, i) => {
+          if (!weights[i] || !modes[i]) return;
+          const rep = modes[i].c;
+          const near = out.find(o => dist(o.c, rep) < 14);
+          if (near) near.w += weights[i];
+          else out.push({ c: rep.slice(), w: weights[i] });
+        });
+        return out
+          .map(o => ({ rgb: o.c.map(Math.round), share: o.w / total }))
+          .filter(o => o.share >= 0.001)
+          .sort((a, b) => b.share - a.share);
+      }
+
+      function renderPalette() {
+        paletteEl.innerHTML = palette.map(p => {
+          const hex = rgbToHex(p.rgb);
+          const pct = p.share >= 0.1 ? Math.round(p.share * 100) : (p.share * 100).toFixed(1).replace('.', ',');
+          return `<div class="ct-swatch">
+            <div class="c" style="background:${hex}"></div>
+            <div class="i"><span>${hex}</span><span>${pct}%</span></div>
+            <div class="b"><button type="button" data-set="fg" data-hex="${hex}" title="Usar como cor do texto">Texto</button><button type="button" data-set="bg" data-hex="${hex}" title="Usar como cor do fundo">Fundo</button></div>
+          </div>`;
+        }).join('');
+
+        const pairs = [];
+        for (let i = 0; i < palette.length; i++) {
+          for (let j = i + 1; j < palette.length; j++) {
+            // a cor que ocupa mais área costuma ser o fundo
+            pairs.push({ bg: palette[i].rgb, fg: palette[j].rgb, r: contrast(palette[i].rgb, palette[j].rgb) });
+          }
+        }
+        pairs.sort((a, b) => b.r - a.r);
+        pairsEl.innerHTML = pairs.length ? pairs.map(p => {
+          const fg = rgbToHex(p.fg);
+          const bg = rgbToHex(p.bg);
+          const lv = levelOf(p.r);
+          return `<button type="button" class="ct-pair" data-fg="${fg}" data-bg="${bg}" title="Verificar esta combinação">
+            <span class="ct-aa" style="color:${fg};background:${bg}">Aa</span>
+            <span><span class="r">${fmtRatio(p.r)}:1</span><span class="h">${fg} sobre ${bg}</span></span>
+            <span class="ct-badge ${lv.cls}">${lv.text}</span>
+          </button>`;
+        }).join('') : '<p class="ct-sub">A imagem tem uma cor só.</p>';
+      }
+
+      paletteEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-set]');
+        if (btn) setColor(btn.dataset.set, btn.dataset.hex);
+      });
+      pairsEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('.ct-pair');
+        if (!btn) return;
+        state.fg = btn.dataset.fg;
+        state.bg = btn.dataset.bg;
+        markers.fg.hidden = true;
+        markers.bg.hidden = true;
+        save();
+        syncInputs();
+        render();
+        preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+
+      function pointFromEvent(e) {
+        const rect = canvas.getBoundingClientRect();
+        const fx = (e.clientX - rect.left) / rect.width;
+        const fy = (e.clientY - rect.top) / rect.height;
+        return {
+          fx, fy,
+          x: Math.min(sampleW - 1, Math.max(0, Math.floor(fx * sampleW))),
+          y: Math.min(sampleH - 1, Math.max(0, Math.floor(fy * sampleH))),
+          rect,
+        };
+      }
+      function pixelAt(x, y) {
+        const d = sampleCtx.getImageData(x, y, 1, 1).data;
+        return [d[0], d[1], d[2]];
+      }
+
+      canvas.addEventListener('mousemove', (e) => {
+        if (!sampleCtx) return;
+        const p = pointFromEvent(e);
+        // lupa: 11×11 pixels ampliados 8×, cruz no pixel que será pego
+        const lctx = loupeCanvas.getContext('2d');
+        lctx.imageSmoothingEnabled = false;
+        lctx.fillStyle = '#000';
+        lctx.fillRect(0, 0, 88, 88);
+        lctx.drawImage(sampleCtx.canvas, p.x - 5, p.y - 5, 11, 11, 0, 0, 88, 88);
+        lctx.strokeStyle = '#FFFFFF';
+        lctx.lineWidth = 1;
+        lctx.strokeRect(40.5, 40.5, 7, 7);
+        loupeText.textContent = rgbToHex(pixelAt(p.x, p.y));
+        // posiciona ao lado do cursor, sem sair da imagem
+        const left = e.clientX - p.rect.left;
+        const top = e.clientY - p.rect.top;
+        loupe.style.left = (left + 112 > p.rect.width ? left - 112 : left + 16) + 'px';
+        loupe.style.top = (top + 118 > p.rect.height ? Math.max(0, top - 118) : top + 16) + 'px';
+        loupe.hidden = false;
+      });
+      canvas.addEventListener('mouseleave', () => { loupe.hidden = true; });
+
+      canvas.addEventListener('click', (e) => {
+        if (!sampleCtx) return;
+        const p = pointFromEvent(e);
+        const slot = (targetRadios.find(r => r.checked) || targetRadios[0]).value;
+        setColor(slot, rgbToHex(pixelAt(p.x, p.y)), { keepMarker: true });
+        const m = markers[slot];
+        m.style.left = (p.fx * 100) + '%';
+        m.style.top = (p.fy * 100) + '%';
+        m.hidden = false;
+        // depois de pegar o texto, já deixa pronto pra pegar o fundo (e vice-versa)
+        targetRadios.forEach(r => { r.checked = r.value !== slot; });
+      });
+
+      syncInputs();
+      render();
     })();
   </script>
 

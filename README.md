@@ -31,6 +31,15 @@ No ar em <https://webp.davidwilliam.studio>.
   cor da borda automática, transparente, preto ou cor personalizada).
 - Saída no formato original, WebP, JPG, PNG ou AVIF.
 
+### Contraste
+Verificador de contraste de cores pela WCAG 2.2:
+- **Por cor**: cor do texto e do fundo (seletor, hex ou conta-gotas da tela no Chrome/Edge), razão de contraste,
+  os critérios texto normal AA/AAA, texto grande AA/AAA e componentes de interface (1.4.11), e prévia ao vivo.
+  Quando não passa, sugere a cor mais próxima (só mais clara ou mais escura) que passa no AA, ou no AAA.
+- **Por imagem**: extrai as cores principais de um print/banner (inclusive as de pouca área, como a de um texto),
+  lista as combinações entre elas com o nível de cada uma, e permite clicar na imagem pra pegar a cor do texto e a
+  do fundo, com lupa ampliada pra acertar letras finas.
+
 ### PDF
 Compressão em três níveis:
 - **Baixa** — recomprime só as imagens internas, qualidade alta. Texto continua selecionável.

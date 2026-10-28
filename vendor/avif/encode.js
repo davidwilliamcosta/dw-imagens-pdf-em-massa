@@ -7,15 +7,15 @@
  *
  * Licença Apache-2.0 — ver LICENSE nesta pasta.
  */
-import { defaultOptions } from './meta.js?b=1';
-import { initEmscriptenModule } from './utils.js?b=1';
-import avifEncoderFactory from './avif_enc.js?b=1';
+import { defaultOptions } from './meta.js?v=d062b5f127';
+import { initEmscriptenModule } from './utils.js?v=e71535eeee';
+import avifEncoderFactory from './avif_enc.js?v=c6805e62ca';
 
 let modulePromise;
 
 // Sufixo de versão no .wasm: gera uma chave de cache limpa (evita cópias antigas
 // guardadas com Content-Type errado) e permite invalidar de propósito ao atualizar.
-const WASM_VERSION = '2.1.1';
+const WASM_VERSION = 'd9f2a95164';
 
 export function init() {
   if (!modulePromise) {

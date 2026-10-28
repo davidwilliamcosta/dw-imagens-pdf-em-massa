@@ -8,7 +8,7 @@
  *   → progresso: { id, progress: {imagesTotal, imagesTouched} }
  *   → final:     { id, ok:true, bytes: ArrayBuffer, stats }  |  { id, ok:false, error }
  */
-import { smartCompress } from './compress.js?b=5';
+import { smartCompress } from './compress.js?v=e31cff9fce';
 
 self.onmessage = async (e) => {
   const { id, bytes, level } = e.data;

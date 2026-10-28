@@ -533,6 +533,95 @@
       color: #FFFFFF;
     }
 
+    button.dl-btn {
+      font-family: var(--font-ui);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    .dl-btn.ghost {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--ink-soft);
+      font-family: var(--font-data);
+    }
+
+    .dl-btn.ghost:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .row-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .wp-link {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--accent-dark);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .wp-link:hover {
+      text-decoration: underline;
+    }
+
+    .wp-err {
+      font-size: 11.5px;
+      color: var(--danger);
+      white-space: nowrap;
+      cursor: help;
+    }
+
+    .wp-status {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin: 12px 0 0;
+    }
+
+    .wp-status.ok {
+      color: var(--accent-dark);
+    }
+
+    .wp-status.err {
+      color: var(--danger);
+    }
+
+    .resp-on {
+      margin-top: 14px;
+      font-weight: 600;
+    }
+
+    .resp-formats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+    }
+
+    .seo-gen-body .fld .resp-formats input[type="radio"] {
+      width: 14px;
+      padding: 0;
+    }
+
+    .seo-gen-body .ow code {
+      font-family: var(--font-data);
+      font-size: 11.5px;
+    }
+
+    .seo-gen-body>.ow {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin-top: 12px;
+    }
+
     .row-remove {
       background: none;
       border: none;
@@ -963,10 +1052,12 @@
     <header>
       <h1>Imagens &amp; PDF em massa</h1>
       <p>Converta, otimize para SEO, recorte e comprima em massa, direto no navegador. Nada sai da sua máquina até
-        você baixar o resultado.</p>
+        você baixar o resultado — ou enviar para o seu próprio WordPress.</p>
       <ul class="feature-chips">
         <li>WebP e AVIF</li>
         <li>SEO: nome, title, alt e descrição</li>
+        <li>Imagens responsivas</li>
+        <li>Envio para WordPress</li>
         <li>Recorte em massa</li>
         <li>Compressão de PDF</li>
       </ul>
@@ -1044,6 +1135,69 @@
         <p class="importer-note">CSV em UTF-8 com colunas <code>file_name, title, alt_text, description</code> — pronto
           para importar no WordPress via <em>WP All Import</em> ou <em>Media Library Assistant</em>. O
           <code>file_name</code> casa com o nome do arquivo dentro do .zip.</p>
+      </div>
+    </details>
+
+    <details class="panel seo-gen" id="respGen">
+      <summary>Tamanhos responsivos <span class="hint">— várias larguras + HTML &lt;picture&gt; pronto pra colar</span></summary>
+      <div class="seo-gen-body">
+        <label class="ow resp-on"><input type="checkbox" id="respOn"> Gerar tamanhos responsivos na conversão</label>
+        <div class="fld">
+          <label for="respWidths">Larguras (px)</label>
+          <input type="text" id="respWidths" placeholder="480, 800, 1200, 1600">
+        </div>
+        <div class="fld">
+          <label>Formatos</label>
+          <span class="resp-formats">
+            <label class="seg"><input type="radio" name="respFormats" value="single"><span>Só o formato escolhido acima</span></label>
+            <label class="seg"><input type="radio" name="respFormats" value="both"><span>AVIF + WebP de reserva</span></label>
+          </span>
+        </div>
+        <div class="fld">
+          <label for="respSizes">Atributo sizes</label>
+          <input type="text" id="respSizes" placeholder="100vw">
+        </div>
+        <div class="fld">
+          <label for="respPrefix">Caminho das imagens</label>
+          <input type="text" id="respPrefix" placeholder="vazio = mesma pasta da página · ex.: /img/produtos/">
+        </div>
+        <label class="ow"><input type="checkbox" id="respLazy"> <span><code>loading="lazy"</code> — desmarque para a imagem
+            principal do topo da página (a do LCP)</span></label>
+        <p class="importer-note">Cada imagem sai em todas as larguras da lista que forem menores que ela, mais o tamanho
+          original — nunca amplia. O botão <strong>&lt;/&gt;</strong> de cada linha copia o HTML com
+          <code>srcset</code>, <code>sizes</code>, <code>width</code>/<code>height</code> (evita o salto de layout) e o
+          alt do SEO; o .zip leva tudo junto num <code>picture.html</code>. No WordPress isso não é necessário: ele gera
+          os tamanhos sozinho.</p>
+      </div>
+    </details>
+
+    <details class="panel seo-gen" id="wpGen">
+      <summary>Enviar para o WordPress <span class="hint">— sobe direto pra biblioteca de mídia com title, alt e
+          descrição</span></summary>
+      <div class="seo-gen-body">
+        <div class="fld">
+          <label for="wpUrl">Endereço do site</label>
+          <input type="text" id="wpUrl" placeholder="https://seusite.com.br" autocomplete="url" spellcheck="false">
+        </div>
+        <div class="fld">
+          <label for="wpUser">Usuário</label>
+          <input type="text" id="wpUser" autocomplete="username" spellcheck="false">
+        </div>
+        <div class="fld">
+          <label for="wpPass">Senha de aplicativo</label>
+          <input type="password" id="wpPass" autocomplete="off" placeholder="xxxx xxxx xxxx xxxx xxxx xxxx">
+        </div>
+        <div class="seo-gen-actions">
+          <label class="ow"><input type="checkbox" id="wpRemember"> lembrar a senha neste navegador</label>
+          <span class="spacer"></span>
+          <button class="btn-ghost" id="wpTestBtn">Testar conexão</button>
+          <button class="btn-primary" id="wpSendBtn" disabled>Enviar convertidas</button>
+        </div>
+        <p class="wp-status" id="wpStatus" hidden></p>
+        <p class="importer-note">Use uma <strong>senha de aplicativo</strong>, não a sua senha de login: no painel do
+          WordPress, <em>Usuários → Perfil → Senhas de aplicativo</em> (exige HTTPS). Os arquivos vão do seu navegador
+          direto pro seu site, sem passar por nenhum outro servidor. Sobe a versão principal de cada imagem já
+          convertida, com o nome, title, alt e descrição do painel de SEO; o WordPress gera os outros tamanhos.</p>
       </div>
     </details>
 
@@ -1261,7 +1415,7 @@
     function ensureWorker() {
       if (worker) return worker;
       try {
-        worker = new Worker('./vendor/avif/worker.js?b=1', { type: 'module' });
+        worker = new Worker('./vendor/avif/worker.js?v=65d1637867', { type: 'module' });
       } catch (e) {
         failAll('não foi possível iniciar o worker AVIF');
         throw e;
@@ -1336,8 +1490,23 @@
       const formatRadios = Array.from(document.querySelectorAll('input[name="format"]'));
       const formatHint = document.getElementById('formatHint');
 
+      const respOn = document.getElementById('respOn');
+      const respWidths = document.getElementById('respWidths');
+      const respFormatRadios = Array.from(document.querySelectorAll('input[name="respFormats"]'));
+      const respSizes = document.getElementById('respSizes');
+      const respPrefix = document.getElementById('respPrefix');
+      const respLazy = document.getElementById('respLazy');
+
+      const wpUrl = document.getElementById('wpUrl');
+      const wpUser = document.getElementById('wpUser');
+      const wpPass = document.getElementById('wpPass');
+      const wpRemember = document.getElementById('wpRemember');
+      const wpTestBtn = document.getElementById('wpTestBtn');
+      const wpSendBtn = document.getElementById('wpSendBtn');
+      const wpStatus = document.getElementById('wpStatus');
+
       let items = []; // { id, file, name, originalSize, status, convertedBlob, convertedSize, thumbUrl, downloadUrl,
-      //   outExt, seoName, seoTitle, seoAlt, seoDesc, seoOpen, *Edited }
+      //   outExt, variants, srcW, srcH, wpId, wpEditUrl, wpError, seoName, seoTitle, seoAlt, seoDesc, seoOpen, *Edited }
       let nextId = 1;
 
       // ---------- Formato de saída ----------
@@ -1360,7 +1529,13 @@
         tplAlt: '{Keyword} {n}',
         tplDesc: '{Keyword} — foto {n} de {total}',
         overwrite: false,
-        format: 'webp'
+        format: 'webp',
+        respOn: false,
+        respWidths: '480, 800, 1200, 1600',
+        respFormats: 'single',
+        respSizes: '100vw',
+        respPrefix: '',
+        respLazy: true
       };
       let cfg = loadCfg();
 
@@ -1397,6 +1572,63 @@
       tplAltInput.addEventListener('input', () => { cfg.tplAlt = tplAltInput.value; saveCfg(); });
       tplDescInput.addEventListener('input', () => { cfg.tplDesc = tplDescInput.value; saveCfg(); });
       overwriteInput.addEventListener('change', () => { cfg.overwrite = overwriteInput.checked; saveCfg(); });
+
+      // ---------- Tamanhos responsivos ----------
+      respOn.checked = cfg.respOn;
+      respWidths.value = cfg.respWidths;
+      respFormatRadios.forEach(r => { r.checked = r.value === cfg.respFormats; });
+      respSizes.value = cfg.respSizes;
+      respPrefix.value = cfg.respPrefix;
+      respLazy.checked = cfg.respLazy;
+
+      // mudar o que define os ARQUIVOS gerados exige converter de novo; o resto
+      // (sizes, caminho, lazy) só muda o HTML, que é montado na hora de copiar
+      function respFilesChanged() {
+        saveCfg();
+        items.forEach(it => { if (it.status === 'concluído') resetConversion(it); });
+        renderQueue();
+        updateSummary();
+        updateActionState();
+      }
+      respOn.addEventListener('change', () => {
+        cfg.respOn = respOn.checked;
+        if (cfg.respOn && cfg.respFormats === 'both' && typeof window.__avifWarmup === 'function') window.__avifWarmup();
+        respFilesChanged();
+      });
+      respWidths.addEventListener('change', () => {
+        cfg.respWidths = parseWidths(respWidths.value).join(', ');
+        respWidths.value = cfg.respWidths;
+        if (cfg.respOn) respFilesChanged(); else saveCfg();
+      });
+      respFormatRadios.forEach(r => r.addEventListener('change', () => {
+        cfg.respFormats = r.value;
+        if (cfg.respOn && cfg.respFormats === 'both' && typeof window.__avifWarmup === 'function') window.__avifWarmup();
+        if (cfg.respOn) respFilesChanged(); else saveCfg();
+      }));
+      respSizes.addEventListener('input', () => { cfg.respSizes = respSizes.value; saveCfg(); });
+      respPrefix.addEventListener('input', () => { cfg.respPrefix = respPrefix.value; saveCfg(); });
+      respLazy.addEventListener('change', () => { cfg.respLazy = respLazy.checked; saveCfg(); });
+
+      function parseWidths(text) {
+        const nums = String(text).split(/[^0-9]+/).map(Number).filter(n => n >= 16 && n <= 10000);
+        return Array.from(new Set(nums)).sort((a, b) => a - b);
+      }
+
+      /** larguras a gerar pra uma imagem de largura w: as da lista menores que ela + ela mesma */
+      function widthsFor(w) {
+        return parseWidths(cfg.respWidths).filter(x => x < w).concat([w]);
+      }
+
+      function resetConversion(it) {
+        if (it.downloadUrl) URL.revokeObjectURL(it.downloadUrl);
+        it.downloadUrl = null;
+        it.convertedBlob = null;
+        it.variants = null;
+        it.wpId = null;
+        it.wpEditUrl = null;
+        it.wpError = null;
+        it.status = 'pendente';
+      }
 
       genBtn.addEventListener('click', generateForAll);
       csvBtn.addEventListener('click', () => {
@@ -1492,11 +1724,66 @@
         return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
       }
 
+      // ---------- variantes responsivas ----------
+      function baseOf(name) {
+        return String(name).replace(/\.(webp|avif)$/i, '');
+      }
+      function variantName(base, v) {
+        return `${base}-${v.w}w.${OUT[v.kind].ext}`;
+      }
+      /** variante "principal": a maior no formato escolhido (é a que vale pro CSV e pro WordPress) */
+      function mainVariant(it) {
+        const own = it.variants.filter(v => v.kind === it.outKind);
+        return own[own.length - 1];
+      }
+      /** nome do arquivo principal do item como ele aparece no .zip */
+      function zipFileName(it, names) {
+        const name = names.get(it.id);
+        return it.variants ? variantName(baseOf(name), mainVariant(it)) : name;
+      }
+
+      /** HTML pronto: <img srcset> (1 formato) ou <picture> com AVIF + <img> WebP de reserva */
+      function buildSnippet(it, names) {
+        const base = baseOf(names.get(it.id));
+        let prefix = (cfg.respPrefix || '').trim();
+        if (prefix && !prefix.endsWith('/')) prefix += '/';
+        const sizes = (cfg.respSizes || '').trim() || '100vw';
+        const byKind = k => it.variants.filter(v => v.kind === k);
+        const srcset = list => list.map(v => `${prefix}${variantName(base, v)} ${v.w}w`).join(', ');
+        const kinds = Array.from(new Set(it.variants.map(v => v.kind)));
+        const imgKind = kinds.includes('webp') ? 'webp' : kinds[0];
+        const imgList = byKind(imgKind);
+        const largest = imgList[imgList.length - 1];
+
+        const attrs = [
+          `src="${escapeHtml(prefix + variantName(base, largest))}"`,
+          `srcset="${escapeHtml(srcset(imgList))}"`,
+          `sizes="${escapeHtml(sizes)}"`,
+          `width="${largest.w}" height="${largest.h}"`,
+          `alt="${escapeHtml(it.seoAlt || '')}"`,
+        ];
+        if (it.seoTitle) attrs.push(`title="${escapeHtml(it.seoTitle)}"`);
+        if (cfg.respLazy) attrs.push('loading="lazy"');
+        attrs.push('decoding="async"');
+        const img = `<img ${attrs.join(' ')}>`;
+
+        const sources = kinds.filter(k => k !== imgKind).map(k =>
+          `  <source type="image/${k}" srcset="${escapeHtml(srcset(byKind(k)))}" sizes="${escapeHtml(sizes)}">`);
+        if (!sources.length) return img;
+        return `<picture>\n${sources.join('\n')}\n  ${img}\n</picture>`;
+      }
+
+      function buildPictureHtml(list, names) {
+        return list.filter(it => it.variants)
+          .map(it => `<!-- ${it.name.replace(/--/g, '-')} -->\n${buildSnippet(it, names)}`)
+          .join('\n\n') + '\n';
+      }
+
       function buildCsv() {
         const names = finalNames();
         const rows = [['file_name', 'title', 'alt_text', 'description']];
         items.forEach(it => {
-          rows.push([names.get(it.id), it.seoTitle || '', it.seoAlt || '', it.seoDesc || '']);
+          rows.push([zipFileName(it, names), it.seoTitle || '', it.seoAlt || '', it.seoDesc || '']);
         });
         return '﻿' + rows.map(r => r.map(csvCell).join(',')).join('\r\n');
       }
@@ -1504,7 +1791,7 @@
       function buildJson() {
         const names = finalNames();
         return JSON.stringify(items.map(it => ({
-          file_name: names.get(it.id),
+          file_name: zipFileName(it, names),
           original: it.name,
           title: it.seoTitle || '',
           alt_text: it.seoAlt || '',
@@ -1615,12 +1902,23 @@
 
         queueList.innerHTML = items.map(it => {
           const finalName = names.get(it.id);
+          const extra = it.variants ? ` · ${it.variants.length} arquivos` : '';
           const afterCell = it.status === 'concluído'
-            ? `<span class="saved">${formatSize(it.convertedSize)} · -${it.pct}%</span>`
-            : `<span class="status">${it.status}</span>`;
-          const downloadCell = it.downloadUrl
-            ? `<a href="${it.downloadUrl}" download="${escapeHtml(finalName)}" class="dl-btn" title="Baixar este arquivo" aria-label="Baixar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg><span>Baixar</span></a>`
-            : '';
+            ? `<span class="saved">${formatSize(it.convertedSize)} · -${it.pct}%${extra}</span>`
+            : `<span class="status">${escapeHtml(it.status)}</span>`;
+          const dlIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>';
+          let downloadCell = '';
+          if (it.status === 'concluído' && it.variants) {
+            downloadCell = `<button type="button" class="dl-btn" data-dlzip="${it.id}" title="Baixar todos os tamanhos desta imagem (.zip)" aria-label="Baixar">${dlIcon}<span>Baixar</span></button>`
+              + `<button type="button" class="dl-btn ghost" data-copy="${it.id}" title="Copiar o HTML (&lt;picture&gt; / srcset)">&lt;/&gt;</button>`;
+          } else if (it.downloadUrl) {
+            downloadCell = `<a href="${it.downloadUrl}" download="${escapeHtml(finalName)}" class="dl-btn" title="Baixar este arquivo" aria-label="Baixar">${dlIcon}<span>Baixar</span></a>`;
+          }
+          if (it.wpId) {
+            downloadCell += `<a class="wp-link" href="${escapeHtml(it.wpEditUrl)}" target="_blank" rel="noopener" title="Abrir no WordPress">WP #${it.wpId}</a>`;
+          } else if (it.wpError) {
+            downloadCell += `<span class="wp-err" title="${escapeHtml(it.wpError)}">falha no WP</span>`;
+          }
           const safeOriginal = escapeHtml(it.name);
 
           const rowHtml = `
@@ -1632,7 +1930,7 @@
           </span>
           <span class="size original">${formatSize(it.originalSize)}</span>
           ${afterCell}
-          <span class="status">${downloadCell}</span>
+          <span class="row-actions">${downloadCell}</span>
           <button class="row-remove" title="Remover" data-remove="${it.id}">×</button>
         </div>`;
 
@@ -1664,6 +1962,34 @@
 
         queueList.querySelectorAll('[data-remove]').forEach(btn => {
           btn.addEventListener('click', () => removeItem(Number(btn.dataset.remove)));
+        });
+
+        queueList.querySelectorAll('[data-dlzip]').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const it = items.find(x => x.id === Number(btn.dataset.dlzip));
+            if (!it || !it.variants) return;
+            const names = finalNames();
+            const base = baseOf(names.get(it.id));
+            const zip = new JSZip();
+            it.variants.forEach(v => zip.file(variantName(base, v), v.blob));
+            zip.file(base + '.html', buildSnippet(it, names) + '\n');
+            downloadBlob(await zip.generateAsync({ type: 'blob' }), base + '.zip');
+          });
+        });
+
+        queueList.querySelectorAll('[data-copy]').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const it = items.find(x => x.id === Number(btn.dataset.copy));
+            if (!it || !it.variants) return;
+            const html = buildSnippet(it, finalNames());
+            try {
+              await navigator.clipboard.writeText(html);
+              btn.textContent = 'copiado!';
+            } catch (e) {
+              window.prompt('Copie o HTML:', html); // clipboard bloqueado (http/iframe)
+            }
+            setTimeout(() => { btn.textContent = '</>'; }, 1500);
+          });
         });
 
         queueList.querySelectorAll('.seo-toggle').forEach(btn => {
@@ -1703,6 +2029,8 @@
         genBtn.disabled = !hasItems;
         csvBtn.disabled = !hasItems;
         jsonBtn.disabled = !hasItems;
+        const credentials = wpUrl.value.trim() && wpUser.value.trim() && wpPass.value.trim();
+        wpSendBtn.disabled = !credentials || !items.some(it => it.status === 'concluído' && !it.wpId);
       }
 
       function updateSummary() {
@@ -1722,22 +2050,16 @@
         downloadZipBtn.disabled = false;
       }
 
-      async function convertOne(item, quality, maxDim, fmt) {
-        const bitmap = await createImageBitmap(item.file, { imageOrientation: 'from-image' });
-        let { width, height } = bitmap;
-        if (maxDim && Math.max(width, height) > maxDim) {
-          const scale = maxDim / Math.max(width, height);
-          width = Math.round(width * scale);
-          height = Math.round(height * scale);
-        }
+      async function renderAndEncode(bitmap, width, height, kind, quality) {
         const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(bitmap, 0, 0, width, height);
-        bitmap.close && bitmap.close();
 
-        if (fmt.kind === 'avif') {
+        if (kind === 'avif') {
           if (typeof window.__avifEncode !== 'function') {
             throw new Error('encoder AVIF indisponível');
           }
@@ -1755,26 +2077,66 @@
         });
       }
 
+      /**
+       * Converte um item. Sem tamanhos responsivos: 1 arquivo. Com: todas as
+       * larguras × formatos, decodificando a imagem uma vez só; o "principal"
+       * é a maior largura no formato escolhido.
+       */
+      async function convertItem(item, quality, maxDim, fmt, responsive) {
+        const bitmap = await createImageBitmap(item.file, { imageOrientation: 'from-image' });
+        try {
+          let { width, height } = bitmap;
+          if (maxDim && Math.max(width, height) > maxDim) {
+            const scale = maxDim / Math.max(width, height);
+            width = Math.round(width * scale);
+            height = Math.round(height * scale);
+          }
+          if (!responsive) {
+            return { main: await renderAndEncode(bitmap, width, height, fmt.kind, quality), variants: null, width, height };
+          }
+          const kinds = cfg.respFormats === 'both' ? ['avif', 'webp'] : [fmt.kind];
+          const variants = [];
+          for (const w of widthsFor(width)) {
+            const h = Math.max(1, Math.round(height * w / width));
+            for (const kind of kinds) {
+              variants.push({ w, h, kind, blob: await renderAndEncode(bitmap, w, h, kind, quality) });
+            }
+          }
+          const own = variants.filter(v => v.kind === fmt.kind);
+          return { main: own[own.length - 1].blob, variants, width, height };
+        } finally {
+          if (bitmap.close) bitmap.close();
+        }
+      }
+
       convertBtn.addEventListener('click', async () => {
         const quality = Number(qualityInput.value);
         const maxDim = resizeToggle.checked ? Number(resizeMax.value) || null : null;
         const fmt = OUT[selectedFormat()];
+        const responsive = cfg.respOn;
 
         convertBtn.disabled = true;
         dropzone.style.pointerEvents = 'none';
 
-        for (const item of items) {
-          if (item.status === 'concluído') continue;
+        for (const item of items.slice()) {
+          if (!items.includes(item) || item.status === 'concluído') continue;
           item.status = 'convertendo…';
           renderQueue();
           try {
-            const blob = await convertOne(item, quality, maxDim, fmt);
+            const r = await convertItem(item, quality, maxDim, fmt, responsive);
             item.status = 'concluído';
             item.outExt = fmt.ext;
-            item.convertedBlob = blob;
-            item.convertedSize = blob.size;
-            item.pct = Math.max(0, Math.round((1 - blob.size / item.originalSize) * 100));
-            item.downloadUrl = URL.createObjectURL(blob);
+            item.outKind = fmt.kind;
+            item.variants = r.variants;
+            item.srcW = r.width;
+            item.srcH = r.height;
+            item.convertedBlob = r.main;
+            item.convertedSize = r.main.size;
+            item.pct = Math.max(0, Math.round((1 - r.main.size / item.originalSize) * 100));
+            item.downloadUrl = URL.createObjectURL(r.main);
+            item.wpId = null;
+            item.wpEditUrl = null;
+            item.wpError = null;
           } catch (err) {
             item.status = 'erro';
             console.warn('Conversão falhou:', item.name, err);
@@ -1808,15 +2170,213 @@
 
         const names = finalNames();
         const zip = new JSZip();
-        done.forEach(it => zip.file(names.get(it.id), it.convertedBlob));
+        done.forEach(it => {
+          if (it.variants) {
+            const base = baseOf(names.get(it.id));
+            it.variants.forEach(v => zip.file(variantName(base, v), v.blob));
+          } else {
+            zip.file(names.get(it.id), it.convertedBlob);
+          }
+        });
         zip.file('metadados.csv', buildCsv());
         zip.file('metadados.json', buildJson());
+        if (done.some(it => it.variants)) zip.file('picture.html', buildPictureHtml(done, names));
         const content = await zip.generateAsync({ type: 'blob' });
         downloadBlob(content, 'webp-em-massa.zip');
 
         downloadZipBtn.textContent = 'Baixar tudo (.zip)';
         downloadZipBtn.disabled = false;
       });
+
+      // ---------- Enviar para o WordPress (API REST + senha de aplicativo) ----------
+      const WP_KEY = 'webp-em-massa:wp:v1';
+      let wp = { site: '', route: null, ok: false, name: '' };
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(WP_KEY)) || {};
+        wpUrl.value = saved.url || '';
+        wpUser.value = saved.user || '';
+        if (saved.pass) { wpPass.value = saved.pass; wpRemember.checked = true; }
+      } catch (e) { /* sem storage */ }
+
+      function saveWp() {
+        try {
+          const data = { url: wpUrl.value.trim(), user: wpUser.value.trim() };
+          if (wpRemember.checked) data.pass = wpPass.value; // só se o usuário pediu
+          localStorage.setItem(WP_KEY, JSON.stringify(data));
+        } catch (e) { /* sem storage */ }
+      }
+      [wpUrl, wpUser, wpPass].forEach(el => el.addEventListener('input', () => {
+        wp.ok = false;
+        saveWp();
+        updateActionState();
+      }));
+      wpRemember.addEventListener('change', saveWp);
+
+      function setWpStatus(text, kind) {
+        wpStatus.hidden = !text;
+        wpStatus.textContent = text || '';
+        wpStatus.className = 'wp-status' + (kind ? ' ' + kind : '');
+      }
+
+      function normalizeSite(raw) {
+        let s = String(raw).trim();
+        if (!s) return '';
+        if (!/^https?:\/\//i.test(s)) s = 'https://' + s;
+        try {
+          const u = new URL(s);
+          // aceita colar o endereço do painel ou da API
+          const path = u.pathname.replace(/\/(wp-admin|wp-json|wp-login\.php)(\/.*)?$/, '').replace(/\/+$/, '');
+          return u.origin + path;
+        } catch (e) {
+          return '';
+        }
+      }
+
+      function withParams(url, params) {
+        return url + (url.includes('?') ? '&' : '?') + new URLSearchParams(params);
+      }
+
+      function wpAuthHeader() {
+        const raw = wpUser.value.trim() + ':' + wpPass.value.replace(/\s+/g, ''); // os espaços da senha são opcionais
+        let bin = '';
+        new TextEncoder().encode(raw).forEach(b => { bin += String.fromCharCode(b); });
+        return 'Basic ' + btoa(bin);
+      }
+
+      /** acha a API: /wp-json/ com links bonitos, ?rest_route= com links "Simples" */
+      async function wpDiscover(site) {
+        const candidates = [
+          { probe: site + '/wp-json/', route: p => site + '/wp-json/' + p },
+          { probe: site + '/?rest_route=/', route: p => site + '/?rest_route=/' + p },
+        ];
+        for (const c of candidates) {
+          try {
+            const r = await fetch(c.probe, { credentials: 'omit' });
+            if (!r.ok) continue;
+            const j = await r.json();
+            if (j && Array.isArray(j.namespaces) && j.namespaces.includes('wp/v2')) return c.route;
+          } catch (e) { /* tenta o próximo */ }
+        }
+        return null;
+      }
+
+      async function wpErrorMessage(r) {
+        let code = '';
+        let message = '';
+        try { const j = await r.json(); code = j.code || ''; message = j.message || ''; } catch (e) { /* corpo não-JSON */ }
+        if (r.status === 401) {
+          if (/incorrect_password|invalid_username|invalid_email/.test(code)) return 'usuário ou senha de aplicativo incorretos';
+          return `o site recusou o login (${code || 401}): confira se as senhas de aplicativo estão ativas (exigem HTTPS) `
+            + 'e se o servidor não está descartando o cabeçalho Authorization';
+        }
+        if (r.status === 403) return 'sem permissão' + (message ? ': ' + message : '');
+        if (r.status === 413) return 'arquivo maior que o limite de upload do servidor';
+        const text = message ? message.replace(/<[^>]+>/g, '') : 'erro HTTP ' + r.status;
+        return text + (code ? ` [${code}]` : '');
+      }
+
+      async function wpConnect() {
+        const site = normalizeSite(wpUrl.value);
+        if (!site) { setWpStatus('Informe o endereço do site.', 'err'); return false; }
+        if (!wpUser.value.trim() || !wpPass.value.trim()) {
+          setWpStatus('Informe o usuário e a senha de aplicativo.', 'err');
+          return false;
+        }
+        if (/^http:\/\//.test(site) && !/^http:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?(\/|$)/.test(site)) {
+          setWpStatus('O WordPress só aceita senha de aplicativo em HTTPS — use https://', 'err');
+          return false;
+        }
+        setWpStatus('Conectando…');
+        const route = await wpDiscover(site);
+        if (!route) {
+          setWpStatus('Não encontrei a API do WordPress nesse endereço (endereço errado, site fora do ar ou API REST bloqueada por plugin de segurança).', 'err');
+          return false;
+        }
+        let r;
+        try {
+          r = await fetch(withParams(route('wp/v2/users/me'), { context: 'edit' }), {
+            headers: { Authorization: wpAuthHeader() },
+            credentials: 'omit',
+          });
+        } catch (e) {
+          setWpStatus('O navegador bloqueou a conexão (CORS ou firewall do site).', 'err');
+          return false;
+        }
+        if (!r.ok) { setWpStatus('Falha: ' + await wpErrorMessage(r) + '.', 'err'); return false; }
+        const me = await r.json();
+        if (me.capabilities && !me.capabilities.upload_files) {
+          setWpStatus(`Conectado como ${me.name}, mas esse usuário não tem permissão pra enviar arquivos.`, 'err');
+          return false;
+        }
+        wp = { site, route, ok: true, name: me.name || wpUser.value.trim() };
+        setWpStatus(`Conectado como ${wp.name} em ${site}.`, 'ok');
+        updateActionState();
+        return true;
+      }
+
+      async function wpUploadOne(it, names) {
+        const fd = new FormData();
+        fd.append('file', it.convertedBlob, names.get(it.id));
+        if (it.seoTitle) fd.append('title', it.seoTitle);
+        if (it.seoAlt) fd.append('alt_text', it.seoAlt);
+        if (it.seoDesc) fd.append('description', it.seoDesc);
+        let r;
+        try {
+          r = await fetch(wp.route('wp/v2/media'), {
+            method: 'POST',
+            headers: { Authorization: wpAuthHeader() },
+            body: fd,
+            credentials: 'omit',
+          });
+        } catch (e) {
+          throw new Error('conexão interrompida (CORS, firewall ou arquivo grande demais pro servidor)');
+        }
+        if (!r.ok) throw new Error(await wpErrorMessage(r));
+        const j = await r.json();
+        it.wpId = j.id;
+        it.wpEditUrl = `${wp.site}/wp-admin/post.php?post=${j.id}&action=edit`;
+        it.wpError = null;
+      }
+
+      wpTestBtn.addEventListener('click', async () => {
+        wpTestBtn.disabled = true;
+        await wpConnect();
+        wpTestBtn.disabled = false;
+      });
+
+      wpSendBtn.addEventListener('click', async () => {
+        wpSendBtn.disabled = true;
+        wpTestBtn.disabled = true;
+        try {
+          if (!wp.ok && !(await wpConnect())) return;
+          const todo = items.filter(it => it.status === 'concluído' && !it.wpId);
+          const names = finalNames();
+          let ok = 0;
+          let fail = 0;
+          for (let i = 0; i < todo.length; i++) {
+            const it = todo[i];
+            if (!items.includes(it) || !it.convertedBlob) continue;
+            setWpStatus(`Enviando ${i + 1} de ${todo.length}…`);
+            try {
+              await wpUploadOne(it, names);
+              ok++;
+            } catch (e) {
+              it.wpError = e.message || String(e);
+              fail++;
+            }
+            renderQueue();
+          }
+          setWpStatus(fail
+            ? `${ok} enviada(s), ${fail} com erro — passe o mouse em "falha no WP" na linha pra ver o motivo.`
+            : `${ok} imagem(ns) enviada(s) pra biblioteca de mídia de ${wp.site}.`, fail ? 'err' : 'ok');
+        } finally {
+          wpTestBtn.disabled = false;
+          updateActionState();
+        }
+      });
+
+      updateActionState();
     })();
   </script>
 
@@ -2690,7 +3250,7 @@
 
       function ensureSmartWorker() {
         if (smartWorker) return smartWorker;
-        smartWorker = new Worker('./vendor/pdf/worker.js?b=5', { type: 'module' });
+        smartWorker = new Worker('./vendor/pdf/worker.js?v=0fe8a16990', { type: 'module' });
         smartWorker.onmessage = (e) => {
           const { id, ok, bytes, stats, error, progress } = e.data;
           const p = smartPending.get(id);
@@ -2720,7 +3280,7 @@
       let rasterizeFn = null;
       async function ensureRasterize() {
         if (!rasterizeFn) {
-          const mod = await import('./vendor/pdf/rasterize.js?b=2');
+          const mod = await import('./vendor/pdf/rasterize.js?v=72185a0416');
           rasterizeFn = mod.rasterize;
         }
         return rasterizeFn;

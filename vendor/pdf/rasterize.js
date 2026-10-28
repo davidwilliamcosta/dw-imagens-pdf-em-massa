@@ -10,10 +10,10 @@
  * pelo index.html, diferente do modo "inteligente" (compress.js), que roda
  * dentro do worker desta app.
  */
-import * as pdfjsLib from './pdfjs/pdf.min.mjs?b=2';
-import { PDFDocument } from './pdf-lib.esm.min.js?b=2';
+import * as pdfjsLib from './pdfjs/pdf.min.mjs?v=27fc2a057a';
+import { PDFDocument } from './pdf-lib.esm.min.js?v=72c052d97b';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('./pdfjs/pdf.worker.min.mjs?b=2', import.meta.url).href;
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('./pdfjs/pdf.worker.min.mjs?v=1baa1844c8', import.meta.url).href;
 
 /**
  * @param {Uint8Array} fileBytes

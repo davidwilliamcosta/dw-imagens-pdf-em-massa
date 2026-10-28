@@ -6,7 +6,7 @@
  *   ← { id, data: ArrayBuffer (RGBA), width, height, options }
  *   → { id, ok: true, buf: ArrayBuffer }   |   { id, ok: false, error: string }
  */
-import avifEncode from './encode.js?b=1';
+import avifEncode from './encode.js?v=fb9e77fc6e';
 
 self.onmessage = async (e) => {
   const { id, data, width, height, options } = e.data;

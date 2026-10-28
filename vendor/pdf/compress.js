@@ -23,8 +23,8 @@
 import {
   PDFDocument, PDFName, PDFRawStream, PDFArray, PDFDict,
   decodePDFRawStream,
-} from './pdf-lib.esm.min.js?b=2';
-import { analyzeContentStream, mul, IDENTITY } from './content-ops.js?b=2';
+} from './pdf-lib.esm.min.js?v=72c052d97b';
+import { analyzeContentStream, mul, IDENTITY } from './content-ops.js?v=b6b7c5499b';
 
 export const LEVELS = {
   baixa: { jpegQuality: 0.88, maxDpi: null, fallbackMaxDim: 3000, minSourceBytes: 8192 },

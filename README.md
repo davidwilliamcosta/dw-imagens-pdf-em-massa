@@ -15,6 +15,13 @@ No ar em <https://webp.davidwilliam.studio>.
   gera nome de arquivo (slug), title, alt e descrição para todas as imagens, com edição individual.
 - Exporta `metadados.csv` (colunas `file_name, title, alt_text, description`, pronto para WP All Import / Media Library
   Assistant) e `metadados.json`, também incluídos no `.zip`.
+- **Tamanhos responsivos**: gera cada imagem em várias larguras (padrão 480/800/1200/1600 + a original, sem
+  ampliar), em um formato ou em AVIF + WebP de reserva, e monta o HTML pronto (`<picture>` ou `<img srcset>`, com
+  `sizes`, `width`/`height`, alt e title do SEO). O botão `</>` de cada linha copia o HTML; o `.zip` traz um
+  `picture.html` com todos.
+- **Enviar para o WordPress**: sobe as imagens convertidas direto pra biblioteca de mídia pela API REST, com title,
+  alt e descrição, usando uma senha de aplicativo (Usuários → Perfil → Senhas de aplicativo; exige HTTPS). Os
+  arquivos vão do navegador direto pro site. A senha só fica salva no navegador se a opção "lembrar" for marcada.
 
 ### Recortar
 - Modos: **Proporção** (1:1, 4:5, 9:16, 16:9, 1.91:1… ou personalizada), **Tamanho exato** (px),
@@ -47,7 +54,10 @@ vendor/pdf/             pdf-lib 1.17.1, pdf.js 4.10.38 + motor de compressão pr
   content-ops.js        interpretador mínimo de content stream (DPI efetivo)
   rasterize.js          nível Máxima (thread principal)
   worker.js             worker dos níveis Baixa/Recomendada
-deploy/                 docker-compose.yml e nginx.conf usados em produção
+deploy/
+  deploy.sh             publica no servidor (backup, rsync, nginx, verificação)
+  stamp.py              carimba os imports com o hash do conteúdo (?v=…)
+  docker-compose.yml    e nginx.conf: configuração usada em produção
 ```
 
 ## Rodar localmente
@@ -63,16 +73,26 @@ python3 -m http.server 8080
 Produção roda num container `nginx:alpine` atrás do Nginx Proxy Manager + Cloudflare Tunnel. No servidor, os arquivos
 do site ficam em `./site` ao lado do `docker-compose.yml` (ver `deploy/`).
 
-O `nginx.conf` precisa declarar os MIME types `application/wasm` (`.wasm`) e `application/javascript` (`.mjs`); sem
-isso o encoder AVIF cai num caminho mais lento e o pdf.js (nível Máxima) não carrega.
+Para publicar, commite e rode:
+
+```bash
+./deploy/deploy.sh
+```
+
+O script carimba as versões, exige o git limpo (o que vai pro ar é o que está no GitHub), guarda um backup do site
+atual em `~/webp-backups` no servidor (os 10 últimos), sincroniza os arquivos com rsync, atualiza o `nginx.conf`
+se ele mudou (testando com `nginx -t` antes de recarregar) e confere hash a hash. `--dry-run` mostra o que mudaria
+sem enviar nada. Servidor, chave e URL podem ser trocados por variáveis (`DEPLOY_HOST`, `DEPLOY_KEY`, `DEPLOY_DIR`,
+`DEPLOY_CONTAINER`, `DEPLOY_URL`).
 
 ### Cache
 
-- Os imports internos de `vendor/pdf` e `vendor/avif` usam um sufixo de versão (`?b=N`). Ao alterar um desses
-  arquivos, incremente o `?b=` em quem o importa (e em `index.html`, se for o worker), senão o navegador e a
-  Cloudflare continuam servindo a versão antiga.
-- Ao alterar o `avif_enc.wasm`, incremente `WASM_VERSION` em `vendor/avif/encode.js`.
-- Se a Cloudflare estiver cacheando HTML, é preciso purgar `/` e `/index.html` a cada deploy.
+- Os imports internos (`vendor/pdf`, `vendor/avif` e os workers chamados pelo `index.html`) levam `?v=<hash do
+  conteúdo>`. Quem atualiza é o `deploy/stamp.py`, em cadeia (mudou `compress.js` → muda o `worker.js` que o importa →
+  muda o `index.html`). Rode `python3 deploy/stamp.py` antes de commitar; o `deploy.sh` também roda.
+- O `nginx.conf` manda `Cache-Control: no-cache` no HTML e no manifest. Se uma regra da Cloudflare forçar cache longo
+  de HTML, ela tem prioridade: nesse caso o deploy avisa e é preciso purgar `/` e `/index.html` no painel.
+- O `.mjs` precisa do MIME `application/javascript` no nginx; sem isso o pdf.js (nível Máxima) não carrega.
 
 ## Bibliotecas de terceiros
 

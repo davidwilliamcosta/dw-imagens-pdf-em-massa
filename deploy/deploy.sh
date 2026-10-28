@@ -128,9 +128,9 @@ fi
 
 # ---------------------------------------------------------------- 6. verificação
 step "Verificando"
-LOCAL_SUMS="$(cd "$STAGE" && find . -type f | sort | while IFS= read -r f; do
+LOCAL_SUMS="$(cd "$STAGE" && find . -type f | LC_ALL=C sort | while IFS= read -r f; do
   printf '%s  %s\n' "$(md5 -q "$f" 2>/dev/null || md5sum "$f" | cut -d' ' -f1)" "${f#./}"; done)"
-REMOTE_SUMS="$("${SSH[@]}" "cd '$REMOTE_DIR/site' && find . -type f | sort | while IFS= read -r f; do
+REMOTE_SUMS="$("${SSH[@]}" "cd '$REMOTE_DIR/site' && find . -type f | LC_ALL=C sort | while IFS= read -r f; do
   printf '%s  %s\n' \"\$(md5sum \"\$f\" | cut -d' ' -f1)\" \"\${f#./}\"; done")"
 if [ "$LOCAL_SUMS" = "$REMOTE_SUMS" ]; then
   echo "servidor idêntico ao projeto ($FILE_COUNT arquivos)"
